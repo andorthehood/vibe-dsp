@@ -1,3 +1,7 @@
+# Load environment variables from .env file (optional)
+-include .env
+export
+
 # Project Name
 TARGET = bypass
 
@@ -33,3 +37,12 @@ build_and_program_dfu:
 	make clean
 	make
 	make program-dfu
+
+start_speech_prompter:
+	speech2shell \
+		--serial-port /dev/cu.usbmodem2102 \
+		--api-key ${ASSEMBLYAI_API_KEY} \
+		--action-template "claude -p \"Read AGENTS.md first, then: {text}. You MUST run make build_and_program after writing code.\" \
+			--allowedTools \"Read,Edit,Bash,Write\" \
+			--output-format stream-json \
+			--verbose "
