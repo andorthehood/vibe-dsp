@@ -19,12 +19,20 @@ This is a DSP effects project for the **Daisy Seed** microcontroller. The goal i
 2. Edit `src/main.cpp` with the DSP implementation
 3. Build and flash: `make build_and_program` (uses ST-Link)
 
+**When the user asks for a different effect, start fresh.** Replace the entire contents of `main.cpp` rather than modifying the existing effect.
+
 ## Code Structure
 
 - **Main source**: `src/main.cpp`
+- **Examples**: `examples/` - Reference implementations to learn from
+- **Saved**: `saved/` - User's saved effects to roll back to
 - **Libraries**:
   - `libs/libDaisy` - Hardware abstraction
   - `libs/DaisySP` - DSP building blocks (filters, delays, oscillators, etc.)
+
+**Important**: Before writing a new effect, check `examples/` for similar implementations.
+
+To load a saved effect: copy it to `src/main.cpp` and run `make build_and_program`.
 
 ## Coding Guidelines
 
@@ -77,6 +85,8 @@ When user asks to adjust a parameter (e.g., "increase the fuzz" or "make delay l
 - Adjust the value appropriately
 - Rebuild and flash
 
+**If the user doesn't specify exact values, just pick reasonable defaults.** Don't ask - make a choice and flash it. The user will tell you if they want it adjusted.
+
 ### Audio Processing
 
 - Sample rate: Use `hw.AudioSampleRate()` (typically 48kHz)
@@ -94,7 +104,7 @@ Common effects to use:
 - `ReverbSc` - Stereo reverb
 - `DelayLine` - Delay/echo effects
 - `Tremolo` - Amplitude modulation
-- `Tone` / `Svf` - Filters
+- `OnePole` / `Svf` - Filters (OnePole uses normalized freq: hz/sample_rate)
 - `Oscillator` - LFOs and signal generation
 - `Compressor` - Dynamics processing
 
@@ -114,3 +124,14 @@ These kinds of simple prompts should work:
 - "make the delay time longer"
 - "add more feedback to the delay"
 - "make it sound more subtle"
+
+## Examples Library
+
+Reference implementations in `examples/`:
+
+| File | Description |
+|------|-------------|
+| `bypass.cpp` | Minimal template - audio passthrough |
+| `fuzz.cpp` | Fuzz/distortion with drive, tone, and level controls |
+| `reverb.cpp` | FDN reverb with decay, mix, and damping controls |
+| `ring_modulator.cpp` | Ring modulator with carrier frequency control |
