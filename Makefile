@@ -3,10 +3,10 @@
 export
 
 # Project Name
-TARGET = bypass
+TARGET = effect
 
 # Serial port for speech prompter
-SERIAL_PORT ?= /dev/cu.usbmodem2102
+SERIAL_PORT ?= /dev/cu.usbserial-AB0JQKVM
 
 # Sources
 CPP_SOURCES = src/main.cpp
